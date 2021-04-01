@@ -10,6 +10,7 @@ defmodule StoneChallengeHttp.Application do
     children = [
       # Starts a worker by calling: StoneChallengeHttp.Worker.start_link(arg)
       # {StoneChallengeHttp.Worker, arg}
+      {Plug.Cowboy, scheme: :http, plug: StoneChallengeHttp.Server, options: [port: 4001]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
