@@ -8,6 +8,6 @@ defmodule StoneChallengeHandlerTest do
         "email1_email2_email3"
       )
 
-    assert result == "{\"email1\":40,\"email2\":39,\"email3\":39}"
+    assert result == %{"email1" => 40, "email2" => 39, "email3" => 39}
   end
 end

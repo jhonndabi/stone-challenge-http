@@ -4,7 +4,7 @@ defmodule StoneChallengeHandler do
   to each email from the emails collection
   """
 
-  @spec handle(String.t(), String.t()) :: String.t()
+  @spec handle(String.t(), String.t()) :: Map.t()
   def handle(products, emails) do
     products = products_format(products)
     emails = emails_format(emails)
@@ -15,7 +15,6 @@ defmodule StoneChallengeHandler do
     |> Enum.with_index()
     |> split_emails(total, Enum.count(emails))
     |> Map.new()
-    |> Jason.encode!
   end
 
   defp split_emails(emails_with_index, total, total_of_emails) do
