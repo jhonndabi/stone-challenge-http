@@ -5,8 +5,8 @@ defmodule StoneChallengeHttp.Server do
 
   use Plug.Router
 
-  plug(:match)
-  plug(:dispatch)
+  plug :match
+  plug :dispatch
 
   get "/:products/:emails" do
     send_resp(
