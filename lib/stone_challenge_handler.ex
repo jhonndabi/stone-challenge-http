@@ -2,22 +2,22 @@ defmodule StoneChallengeHandler do
   def handle(products, emails) do
     products = products_format(products)
     emails = emails_format(emails)
-    total_of_emails = Enum.count(emails)
 
     total = products_total(products)
-    total_per_email = div(total, total_of_emails)
-    total_remainder = rem(total, total_of_emails)
 
     emails
       |> Enum.with_index
-      |> split_emails(total_per_email, total_remainder)
+      |> split_emails(total, Enum.count(emails))
       |> Map.new
       |> inspect
   end
 
-  defp split_emails(emails_with_index, total_per_email, total_remainder) do
+  defp split_emails(emails_with_index, total, total_of_emails) do
+    total_per_email = div(total, total_of_emails)
+    remainder = rem(total, total_of_emails)
+
     Enum.map(emails_with_index, fn {email, index} ->
-      total = if index < total_remainder, do: total_per_email + 1, else: total_per_email
+      total = if index < remainder, do: total_per_email + 1, else: total_per_email
 
       {email, total}
     end)
