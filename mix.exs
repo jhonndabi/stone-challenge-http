@@ -21,8 +21,7 @@ defmodule StoneChallengeHttp.MixProject do
   defp deps do
     [
       {:plug, "~> 1.11"},
-      {:plug_cowboy, "~> 2.4"},
-      {:poison, "~> 3.1"}
+      {:plug_cowboy, "~> 2.4"}
     ]
   end
 end

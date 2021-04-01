@@ -9,11 +9,18 @@ defmodule StoneChallengeHttp.Server do
   plug :dispatch
 
   get "/:products/:emails" do
-    send_resp(
-      conn,
-      200,
-      StoneChallengeHandler.handle(products, emails)
-    )
+    body = StoneChallengeHandler.handle(products, emails)
+
+    send_resp(conn, 200, body)
+  end
+
+  get "/challenge_by_query" do
+    conn = fetch_query_params(conn)
+    %{"products" => products, "emails" => emails} = conn.query_params
+
+    body = StoneChallengeHandler.handle(products, emails)
+
+    send_resp(conn, 200, body)
   end
 
   match _ do

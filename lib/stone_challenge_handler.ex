@@ -2,35 +2,25 @@ defmodule StoneChallengeHandler do
   def handle(products, emails) do
     products = products_format(products)
     emails = emails_format(emails)
+    total_of_emails = Enum.count(emails)
 
     total = products_total(products)
-    total_per_email = div(total, Enum.count(emails))
-    total_remainder = rem(total, Enum.count(emails))
+    total_per_email = div(total, total_of_emails)
+    total_remainder = rem(total, total_of_emails)
 
-    split_emails(emails, total_per_email)
-      |> split_remainder(total_remainder)
-      |> Poison.encode!
+    emails
+      |> Enum.with_index
+      |> split_emails(total_per_email, total_remainder)
+      |> Map.new
+      |> inspect
   end
 
-  defp split_emails(emails, total_per_email) do
-    Enum.reduce(emails, %{}, fn email, acc ->
-      Map.put(acc, email, total_per_email)
+  defp split_emails(emails_with_index, total_per_email, total_remainder) do
+    Enum.map(emails_with_index, fn {email, index} ->
+      total = if index < total_remainder, do: total_per_email + 1, else: total_per_email
+
+      {email, total}
     end)
-  end
-
-  defp split_remainder(splitted, 0), do: splitted
-
-  defp split_remainder(splitted, remainder) do
-    %{res: splitted_res} =
-      Enum.reduce(splitted, %{res: %{}, rem: remainder}, fn
-        {email, amount}, %{res: %{}, rem: 0} = acc ->
-          %{res: Map.put(acc.res, email, amount), rem: 0}
-
-        {email, amount}, acc ->
-          %{res: Map.put(acc.res, email, amount + 1), rem: acc.rem - 1}
-      end)
-
-    splitted_res
   end
 
   defp products_total(products) do
