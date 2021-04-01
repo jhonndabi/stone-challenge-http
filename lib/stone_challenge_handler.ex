@@ -1,4 +1,10 @@
 defmodule StoneChallengeHandler do
+  @moduledoc """
+  Module to handle the calculation and distribution of the total of a products list
+  to each email from the emails collection
+  """
+
+  @spec handle(String.t(), String.t()) :: String.t()
   def handle(products, emails) do
     products = products_format(products)
     emails = emails_format(emails)
