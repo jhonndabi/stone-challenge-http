@@ -23,6 +23,15 @@ defmodule StoneChallengeHttp.Server do
     send_resp(conn, 200, body)
   end
 
+  get "/challenge_by_headers" do
+    [products | _] = get_req_header(conn, "products")
+    [emails | _] = get_req_header(conn, "emails")
+
+    body = StoneChallengeHandler.handle(products, emails)
+
+    send_resp(conn, 200, body)
+  end
+
   match _ do
     send_resp(conn, 404, "Page not found!")
   end
