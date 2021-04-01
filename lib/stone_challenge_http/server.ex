@@ -32,6 +32,10 @@ defmodule StoneChallengeHttp.Server do
     send_resp(conn, 200, body)
   end
 
+  post "/post_hello" do
+    send_resp(conn, 200, "Hello from post")
+  end
+
   match _ do
     send_resp(conn, 404, "Page not found!")
   end

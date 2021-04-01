@@ -12,10 +12,10 @@ defmodule StoneChallengeHandler do
     total = products_total(products)
 
     emails
-      |> Enum.with_index
-      |> split_emails(total, Enum.count(emails))
-      |> Map.new
-      |> inspect
+    |> Enum.with_index()
+    |> split_emails(total, Enum.count(emails))
+    |> Map.new()
+    |> Jason.encode!
   end
 
   defp split_emails(emails_with_index, total, total_of_emails) do
